@@ -120,7 +120,7 @@ h1 .line:nth-child(2) > span { animation-delay: .08s; color: var(--accent); }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .btn svg { width: 16px; height: 16px; flex: none; }
 
-.portrait { position: relative; justify-self: center; width: min(320px, 70vw); aspect-ratio: 1; max-width: 100%; }
+.portrait { position: relative; justify-self: start; width: min(320px, 70vw); aspect-ratio: 1; max-width: 100%; }
 .portrait .ring { position: absolute; inset: -10px; border-radius: 50%; border: 1px dashed var(--accent); opacity: .45; animation: spin 40s linear infinite; }
 .portrait .ring::before { content: ""; position: absolute; top: 50%; left: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--warm); }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -371,12 +371,12 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
     <div class="sec-head"><h2>Education</h2><p>degrees</p></div>
     <div class="two">
       <div class="edu reveal">
-        <figure class="campus"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Old_College_Quad.jpg?width=1000" alt="Old College quadrangle, University of Edinburgh" loading="lazy" onerror="this.remove()"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Old_College_Quad.jpg" target="_blank" rel="noopener">Old College · Wikimedia Commons</a></figcaption></figure>
-        <div class="edu-body"><span class="when">2018 – 2019</span><h3>MSc Artificial Intelligence</h3><p>The University of Edinburgh, Scotland</p></div>
-      </div>
-      <div class="edu reveal">
         <figure class="campus"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Main_building_NIT_CALICUT_2.jpg?width=1000" alt="Main building, NIT Calicut" loading="lazy" onerror="this.remove()"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Main_building_NIT_CALICUT_2.jpg" target="_blank" rel="noopener">Main building · Wikimedia Commons</a></figcaption></figure>
         <div class="edu-body"><span class="when">2013 – 2017</span><h3>BTech Computer Science &amp; Engineering</h3><p>National Institute of Technology Calicut, India</p></div>
+      </div>
+      <div class="edu reveal">
+        <figure class="campus"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Old_College_Quad.jpg?width=1000" alt="Old College quadrangle, University of Edinburgh" loading="lazy" onerror="this.remove()"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Old_College_Quad.jpg" target="_blank" rel="noopener">Old College · Wikimedia Commons</a></figcaption></figure>
+        <div class="edu-body"><span class="when">2018 – 2019</span><h3>MSc Artificial Intelligence</h3><p>The University of Edinburgh, Scotland</p></div>
       </div>
     </div>
   </section>
