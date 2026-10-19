@@ -168,6 +168,11 @@ h2 { font: 700 clamp(30px, 4.4vw, 44px)/1.05 var(--display); letter-spacing: -.0
 .company-logo.ms { width: 25px; }
 .company-logo.thg { width: 28px; }
 .company-logo.jpm { width: 32px; }
+.company-logo.brand-mark { width: 30px; height: 24px; }
+.company-logo.ms.brand-mark { width: 34px; height: 24px; }
+.publication-link { margin-top: 10px !important; }
+.publication-link a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.publication-link a:hover { text-decoration: underline; }
 .company-logo.thg-mark { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 22px; border: 1.5px solid currentColor; border-radius: 3px; font: 800 10px/1 var(--body); letter-spacing: .04em; }
 @media (max-width: 560px) {
   .job .org { gap: 6px; }
@@ -333,7 +338,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       <span class="progress" id="progress"></span>
 
       <article class="job current reveal">
-        <div class="job-top"><h3>Senior Data Scientist (AVP) · <span class="org natwest">NatWest Group<img class="company-logo natwest" src="https://commons.wikimedia.org/wiki/Special:FilePath/NatWest_logo.svg" alt="NatWest logo" loading="lazy" onerror="this.style.display='none'"></span></h3><span class="when">Mar 2026 – Present</span></div>
+        <div class="job-top"><h3>Senior Data Scientist (AVP) · <span class="org natwest">NatWest Group<svg class="company-logo natwest brand-mark" viewBox="0 0 36 28" role="img" aria-label="NatWest logo"><path fill="#5A2CA0" d="M2 4 11 1 17 8 8 12Z"/><path fill="#E84B8A" d="M17 8 26 3 34 9 25 14Z"/><path fill="#4C3C91" d="M8 12 17 8 25 14 16 19Z"/><path fill="#D6C8F2" d="M8 12 16 19 16 27 7 21Z"/><path fill="#8B6BC4" d="M16 19 25 14 25 22 16 27Z"/></svg></span></h3><span class="when">Mar 2026 – Present</span></div>
         <p class="where">Bangalore, Karnataka, India</p>
         <div class="cards">
           <div class="card wide"><span class="metric">FAISS KNN → knowledge graph → LLM</span><h4>Knowledge base deduplication</h4><p>Architected a funnel-based framework to deduplicate the knowledge base across franchises and functions. Cheap vector search and knowledge graph matching shortlist candidates, so the LLM verification step runs only where it matters, greatly reducing processing cost.</p></div>
@@ -343,7 +348,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       </article>
 
       <article class="job reveal">
-        <div class="job-top"><h3>Data Scientist, Machine Learning · <span class="org ms">Marks &amp; Spencer<img class="company-logo ms" src="https://commons.wikimedia.org/wiki/Special:FilePath/Marks_and_Spencer_logo.svg" alt="Marks &amp; Spencer logo" loading="lazy" onerror="this.style.display='none'"></span></h3><span class="when">Sep 2021 – Nov 2025</span></div>
+        <div class="job-top"><h3>Data Scientist, Machine Learning · <span class="org ms">Marks &amp; Spencer<svg class="company-logo ms brand-mark" viewBox="0 0 38 26" role="img" aria-label="Marks and Spencer logo"><rect x="1" y="1" width="36" height="24" rx="2" fill="#006B45"/><text x="19" y="18" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">M&amp;S</text></svg></span></h3><span class="when">Sep 2021 – Nov 2025</span></div>
         <p class="where">London, England, United Kingdom</p>
         <div class="cards">
           <div class="card wide"><span class="metric">~£1M impact · +46% incremental value</span><h4>Predicting product time-to-sell</h4><p>A distributed PySpark model predicting how long returned products take to sell, embedded in the M&amp;S returns management system.</p></div>
@@ -408,7 +413,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
     <div class="sec-head"><h2>Research &amp; recognition</h2><p>beyond the day job</p></div>
     <ul class="list">
       <li class="reveal"><span class="k">Research</span><div><h4>Human Brain Project (EU Horizon 2020)</h4><p>MSc project: a rule-based system modelling protein interactions in the fly brain, stored in SQL and served through a Django interface.</p></div></li>
-      <li class="reveal"><span class="k">Publication</span><div><h4>Sentiment Analysis · IEEE ICCCNT 2017</h4><p>Proposed and implemented a sentiment analysis algorithm in Python and NLTK, presented at the 8th ICCCNT, Delhi.</p></div></li>
+      <li class="reveal"><span class="k">Publication</span><div><h4>Sentiment Analysis · IEEE ICCCNT 2017</h4><p>Proposed and implemented a sentiment analysis algorithm in Python and NLTK, presented at the 8th ICCCNT, Delhi.</p><p class="publication-link"><a href="https://scholar.google.com/citations?user=srllkp8AAAAJ&amp;hl=en" target="_blank" rel="noopener">View Google Scholar profile ↗</a></p></div></li>
       <li class="reveal"><span class="k">Winner</span><div><h4>M&amp;S Hackathon</h4><p>A food-till model predicting labour hours, with the lowest mean absolute error of all competing models.</p></div></li>
       <li class="reveal"><span class="k">Winner</span><div><h4>Debugger, Tathva 2014</h4><p>National technology festival of NIT Calicut.</p></div></li>
       <li class="reveal"><span class="k">Organiser</span><div><h4>Google Developers Fest, Calicut 2014</h4><p>Core organising committee member.</p></div></li>
