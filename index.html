@@ -162,7 +162,19 @@ h2 { font: 700 clamp(30px, 4.4vw, 44px)/1.05 var(--display); letter-spacing: -.0
 .job.current::before { background: var(--accent); box-shadow: 0 0 0 6px var(--accent-soft); }
 .job-top { display: flex; justify-content: space-between; gap: 6px 20px; flex-wrap: wrap; align-items: baseline; }
 .job h3 { font: 700 22px/1.25 var(--display); letter-spacing: -.015em; margin: 0; }
-.job .org { color: var(--accent); }
+.job .org { color: var(--accent); transition: color .2s; }
+.job .org.natwest { color: #5A2CA0; }
+.job .org.ms { color: #006B45; }
+.job .org.thg { color: var(--ink); letter-spacing: -.035em; }
+.job .org.jpm { color: #003A5D; }
+:root[data-theme="dark"] .job .org.natwest { color: #B9A0FF; }
+:root[data-theme="dark"] .job .org.ms { color: #55C99A; }
+:root[data-theme="dark"] .job .org.jpm { color: #79BDE8; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .job .org.natwest { color: #B9A0FF; }
+  :root:not([data-theme="light"]) .job .org.ms { color: #55C99A; }
+  :root:not([data-theme="light"]) .job .org.jpm { color: #79BDE8; }
+}
 .when { font: 500 13px var(--mono); color: var(--muted); white-space: nowrap; }
 .where { color: var(--muted); font-size: 14.5px; margin: 2px 0 16px; }
 .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -305,12 +317,12 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
   </div>
 
   <section id="experience">
-    <div class="sec-head"><h2>Experience</h2><p>Career highlights</p></div>
+    <div class="sec-head"><h2>Experience</h2></div>
     <div class="timeline" id="timeline">
       <span class="progress" id="progress"></span>
 
       <article class="job current reveal">
-        <div class="job-top"><h3>Senior Data Scientist (AVP) · <span class="org">NatWest Group</span></h3><span class="when">Mar 2026 – Present</span></div>
+        <div class="job-top"><h3>Senior Data Scientist (AVP) · <span class="org natwest">NatWest Group</span></h3><span class="when">Mar 2026 – Present</span></div>
         <p class="where">Bangalore, Karnataka, India</p>
         <div class="cards">
           <div class="card wide"><span class="metric">FAISS KNN → knowledge graph → LLM</span><h4>Knowledge base deduplication</h4><p>Architected a funnel-based framework to deduplicate the knowledge base across franchises and functions. Cheap vector search and knowledge graph matching shortlist candidates, so the LLM verification step runs only where it matters, greatly reducing processing cost.</p></div>
@@ -320,7 +332,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       </article>
 
       <article class="job reveal">
-        <div class="job-top"><h3>Data Scientist, Machine Learning · <span class="org">Marks &amp; Spencer</span></h3><span class="when">Sep 2021 – Nov 2025</span></div>
+        <div class="job-top"><h3>Data Scientist, Machine Learning · <span class="org ms">Marks &amp; Spencer</span></h3><span class="when">Sep 2021 – Nov 2025</span></div>
         <p class="where">London, England, United Kingdom</p>
         <div class="cards">
           <div class="card wide"><span class="metric">~£1M impact · +46% incremental value</span><h4>Predicting product time-to-sell</h4><p>A distributed PySpark model predicting how long returned products take to sell, embedded in the M&amp;S returns management system.</p></div>
@@ -334,7 +346,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       </article>
 
       <article class="job reveal">
-        <div class="job-top"><h3>Data Scientist, Machine Learning · <span class="org">The Hut Group</span></h3><span class="when">Sep 2019 – Sep 2021</span></div>
+        <div class="job-top"><h3>Data Scientist, Machine Learning · <span class="org thg">The Hut Group</span></h3><span class="when">Sep 2019 – Sep 2021</span></div>
         <p class="where">Manchester, England, United Kingdom</p>
         <div class="cards">
           <div class="card"><span class="metric">100,000+ products</span><h4>Demand forecasting</h4><p>Product-level ML forecasting with the inference pipeline deployed on Google Cloud Platform.</p></div>
@@ -346,7 +358,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       </article>
 
       <article class="job reveal">
-        <div class="job-top"><h3>Software Engineer · <span class="org">JP Morgan Chase &amp; Co</span></h3><span class="when">Jul 2017 – Aug 2018</span></div>
+        <div class="job-top"><h3>Software Engineer · <span class="org jpm">JP Morgan Chase &amp; Co</span></h3><span class="when">Jul 2017 – Aug 2018</span></div>
         <p class="where">Bangalore, Karnataka, India · Technology Analyst Program</p>
         <div class="cards">
           <div class="card"><h4>Email monitoring system</h4><p>Developed a proprietary email monitoring system deployed across JP Morgan lines of business.</p></div>
