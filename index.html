@@ -615,20 +615,20 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
     centers = [[-1.75, 1.4], [1.75, 1.4], [2.6, 1.38], [3.75, 1.38]].map(function (a) {
       return [pcx + Math.cos(a[0]) * R * a[1], pcy + Math.sin(a[0]) * R * a[1]];
     });
-    var m = 'radial-gradient(circle at ' + pcx + 'px ' + pcy + 'px, #000 ' + (R * 1.05) + 'px, transparent ' + (R * 2.2) + 'px)';
+    var m = 'linear-gradient(transparent, transparent)';
     // empty space to the right of the name: find where the longest word ends and where the text column ends
     box = null;
     var h1 = document.querySelector('h1'), hr = h1.getBoundingClientRect(), right = 0;
     h1.querySelectorAll('.line > span').forEach(function (sp) { right = Math.max(right, sp.getBoundingClientRect().right); });
     var colRight = document.querySelector('.hero-text').getBoundingClientRect().right;
-    var bx0 = right - r.left + 40, bx1 = Math.min(colRight - r.left, W) - 10;
+    var bx0 = hr.left - r.left - 10, bx1 = Math.min(colRight - r.left, W) - 10;
     if (bx1 - bx0 > 140) {
-      box = { x0: bx0, x1: bx1, y0: hr.top - r.top + 6, y1: hr.bottom - r.top - 6 };
+      box = { x0: bx0, x1: bx1, y0: hr.top - r.top - 4, y1: hr.bottom - r.top + 4 };
       var bcx = (box.x0 + box.x1) / 2, bcy = (box.y0 + box.y1) / 2, bw = (box.x1 - box.x0) / 2, bh = (box.y1 - box.y0) / 2;
       m += ', radial-gradient(ellipse ' + bw * 1.15 + 'px ' + bh * 1.15 + 'px at ' + bcx + 'px ' + bcy + 'px, #000 55%, transparent 100%)';
     }
     cv.style.webkitMaskImage = m; cv.style.maskImage = m;
-    var n = 64, nb = box ? 22 : 0;
+    var n = 0, nb = box ? 52 : 0;
     pts = [];
     for (var i = 0; i < n; i++) {
       var c = centers[i % centers.length];
@@ -665,7 +665,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       p.vx *= 0.93; p.vy *= 0.93; p.x += p.vx; p.y += p.vy;
       // keep every point outside the dotted ring
       var rx = p.x - pcx, ry = p.y - pcy, rd = Math.sqrt(rx * rx + ry * ry) || 1;
-      if (rd < minR) { p.x = pcx + rx / rd * minR; p.y = pcy + ry / rd * minR; p.vx *= -0.3; p.vy *= -0.3; }
+      if (!p.box && rd < minR) { p.x = pcx + rx / rd * minR; p.y = pcy + ry / rd * minR; p.vx *= -0.3; p.vy *= -0.3; }
       // name-side points never leave their box, so they can't drift over the text
       if (p.box) { p.x = Math.min(box.x1, Math.max(box.x0, p.x)); p.y = Math.min(box.y1, Math.max(box.y0, p.y)); }
     }
