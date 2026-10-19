@@ -87,7 +87,9 @@ nav .wrap { display: flex; align-items: center; justify-content: space-between; 
 .hero { position: relative; padding-block: 72px 56px; }
 #space { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
   -webkit-mask-image: radial-gradient(ellipse at 70% 45%, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse at 70% 45%, #000 30%, transparent 75%); }
-.hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: center; }
+.hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(220px, 320px) minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); align-items: center; }
+.hero-text { grid-column: 2; grid-row: 1; }
+.portrait { grid-column: 1; grid-row: 1; justify-self: start; }
 .hero-text { min-width: 0; }
 .eyebrow { font: 500 12.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: inline-flex; align-items: center; gap: 10px; }
 .pulse { width: 8px; height: 8px; border-radius: 50%; background: #2FB36D; box-shadow: 0 0 0 0 rgba(47,179,109,.5); animation: pulse 2.4s infinite; }
@@ -123,13 +125,11 @@ h1 .line:nth-child(2) > span { animation-delay: .08s; color: var(--accent); }
 .portrait .ring::before { content: ""; position: absolute; top: 50%; left: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--warm); }
 @keyframes spin { to { transform: rotate(360deg); } }
 .portrait .frame { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; background: linear-gradient(140deg, var(--accent), var(--warm)); box-shadow: 0 30px 60px -30px rgba(16,19,26,.45); }
-.portrait img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s; }
-.portrait:hover img { transform: scale(1.04); }
+.portrait img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: center 32%; display: block; transform: scale(1.07); transition: transform .6s; }
+/* Slightly crop the edges of the LinkedIn-exported portrait. */
+.portrait:hover img { transform: scale(1.10); }
 .portrait .initials { position: absolute; inset: 0; display: grid; place-items: center; font: 800 96px var(--display); color: #fff; letter-spacing: -.04em; }
-.portrait .tag {
-  position: absolute; z-index: 2; right: -6px; bottom: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
-  padding: 7px 14px; font: 500 12.5px var(--mono); box-shadow: 0 10px 24px -14px rgba(0,0,0,.4); animation: float 5s ease-in-out infinite;
-}
+.portrait .tag { display: none; }
 @keyframes float { 50% { transform: translateY(-8px); } }
 
 /* Stats */
@@ -228,6 +228,9 @@ h2 { font: 700 clamp(30px, 4.4vw, 44px)/1.05 var(--display); letter-spacing: -.0
 .contact .btn { background: transparent; color: var(--bg); border-color: color-mix(in srgb, var(--bg) 30%, transparent); }
 .contact .btn:hover { border-color: var(--bg); }
 .contact .btn.primary { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+/* High-contrast email action stays readable in both themes. */
+.contact #copy, .contact #copy:visited { background: #FFFFFF; color: #111827; border-color: #FFFFFF; }
+.contact #copy:hover, .contact #copy:focus-visible { background: #EEF2FF; color: #111827; border-color: #EEF2FF; }
 .contact .mail { font: 500 15px var(--mono); user-select: all; }
 .contact::after { content: ""; position: absolute; right: -120px; top: -120px; width: 360px; height: 360px; border-radius: 50%;
   background: radial-gradient(circle, color-mix(in srgb, var(--accent) 70%, transparent), transparent 70%); opacity: .55; animation: drift 12s ease-in-out infinite alternate; }
@@ -239,9 +242,10 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
 
 @media (max-width: 860px) {
   .hero { padding-block: 40px 40px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+  .portrait, .hero-text { grid-column: 1; grid-row: auto; }
   .portrait { order: -1; width: min(220px, 60vw); justify-self: start; }
-  .portrait .initials { font-size: 64px; }
+  .portrait .initials { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -287,10 +291,8 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       <div class="portrait fade d2">
         <div class="ring"></div>
         <div class="frame">
-          <div class="initials">AD</div>
           <img id="photo" src="photo.jpg" alt="Portrait of Ayush Das" onerror="this.remove()">
         </div>
-        <span class="tag">LLMs · RAG · FAISS</span>
       </div>
     </div>
   </header>
