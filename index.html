@@ -21,6 +21,7 @@
   --line: #E1E4EA;
   --accent: #2438C7;
   --accent-soft: #E6E9FB;
+  --on-accent: #FFFFFF;
   --warm: #C9822B;
   --dot: rgba(36, 56, 199, .55);
   --edge: rgba(36, 56, 199, .14);
@@ -33,13 +34,13 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0B0D12; --surface: #12151C; --ink: #ECEEF3; --muted: #9AA1B2; --line: #232836;
-    --accent: #8C9BFF; --accent-soft: #1A1F38; --warm: #E3A55A;
+    --accent: #8C9BFF; --accent-soft: #1A1F38; --on-accent: #0B0D12; --warm: #E3A55A;
     --dot: rgba(140, 155, 255, .6); --edge: rgba(140, 155, 255, .16); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0B0D12; --surface: #12151C; --ink: #ECEEF3; --muted: #9AA1B2; --line: #232836;
-  --accent: #8C9BFF; --accent-soft: #1A1F38; --warm: #E3A55A;
+  --accent: #8C9BFF; --accent-soft: #1A1F38; --on-accent: #0B0D12; --warm: #E3A55A;
   --dot: rgba(140, 155, 255, .6); --edge: rgba(140, 155, 255, .16); color-scheme: dark;
 }
 
@@ -114,9 +115,7 @@ h1 .line:nth-child(2) > span { animation-delay: .08s; color: var(--accent); }
   background: var(--surface); color: var(--ink); transition: transform .2s, border-color .2s, background .2s;
 }
 .btn:hover { border-color: var(--accent); transform: translateY(-2px); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-:root[data-theme="dark"] .btn.primary { color: #0B0D12; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary { color: #0B0D12; } }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .btn svg { width: 16px; height: 16px; flex: none; }
 
 .portrait { position: relative; justify-self: center; width: min(320px, 70vw); aspect-ratio: 1; max-width: 100%; }
@@ -124,14 +123,13 @@ h1 .line:nth-child(2) > span { animation-delay: .08s; color: var(--accent); }
 .portrait .ring::before { content: ""; position: absolute; top: 50%; left: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--warm); }
 @keyframes spin { to { transform: rotate(360deg); } }
 .portrait .frame { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; background: linear-gradient(140deg, var(--accent), var(--warm)); box-shadow: 0 30px 60px -30px rgba(16,19,26,.45); }
-.portrait img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s; }
+.portrait img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s; }
 .portrait:hover img { transform: scale(1.04); }
 .portrait .initials { position: absolute; inset: 0; display: grid; place-items: center; font: 800 96px var(--display); color: #fff; letter-spacing: -.04em; }
 .portrait .tag {
-  position: absolute; right: -6px; bottom: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+  position: absolute; z-index: 2; right: -6px; bottom: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
   padding: 7px 14px; font: 500 12.5px var(--mono); box-shadow: 0 10px 24px -14px rgba(0,0,0,.4); animation: float 5s ease-in-out infinite;
 }
-.portrait .tag.t2 { right: auto; left: -14px; bottom: auto; top: 26px; animation-delay: -2.5s; }
 @keyframes float { 50% { transform: translateY(-8px); } }
 
 /* Stats */
@@ -201,7 +199,15 @@ h2 { font: 700 clamp(30px, 4.4vw, 44px)/1.05 var(--display); letter-spacing: -.0
 /* Education + more */
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 @media (max-width: 680px) { .two { grid-template-columns: 1fr; } }
-.edu { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; min-width: 0; }
+.edu { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; overflow: hidden; transition: transform .3s, border-color .3s; }
+.edu:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.edu-body { padding: 20px 22px 22px; }
+.campus { position: relative; margin: 0; aspect-ratio: 16 / 9; max-width: 100%; overflow: hidden;
+  background: linear-gradient(135deg, var(--accent-soft), color-mix(in srgb, var(--warm) 25%, var(--surface))); }
+.campus img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+.edu:hover .campus img { transform: scale(1.06); }
+.campus figcaption { position: absolute; right: 8px; bottom: 8px; font: 400 11px var(--mono); }
+.campus figcaption a { color: #fff; text-decoration: none; background: rgba(0,0,0,.45); padding: 3px 8px; border-radius: 6px; }
 .edu .when { display: block; margin-bottom: 10px; }
 .edu h3 { margin: 0 0 4px; font: 700 20px/1.25 var(--display); letter-spacing: -.01em; }
 .edu p { margin: 0; color: var(--muted); font-size: 14.5px; }
@@ -285,7 +291,6 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
           <img id="photo" src="photo.jpg" alt="Portrait of Ayush Das" onerror="this.remove()">
         </div>
         <span class="tag">LLMs · RAG · FAISS</span>
-        <span class="tag t2">MSc AI, Edinburgh</span>
       </div>
     </div>
   </header>
@@ -363,8 +368,14 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
   <section id="education">
     <div class="sec-head"><h2>Education</h2><p>degrees</p></div>
     <div class="two">
-      <div class="edu reveal"><span class="when">2018 – 2019</span><h3>MSc Artificial Intelligence</h3><p>The University of Edinburgh, Scotland</p></div>
-      <div class="edu reveal"><span class="when">2013 – 2017</span><h3>BTech Computer Science &amp; Engineering</h3><p>National Institute of Technology Calicut, India</p></div>
+      <div class="edu reveal">
+        <figure class="campus"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Old_College_Quad.jpg?width=1000" alt="Old College quadrangle, University of Edinburgh" loading="lazy" onerror="this.remove()"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Old_College_Quad.jpg" target="_blank" rel="noopener">Old College · Wikimedia Commons</a></figcaption></figure>
+        <div class="edu-body"><span class="when">2018 – 2019</span><h3>MSc Artificial Intelligence</h3><p>The University of Edinburgh, Scotland</p></div>
+      </div>
+      <div class="edu reveal">
+        <figure class="campus"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Main_building_NIT_CALICUT_2.jpg?width=1000" alt="Main building, NIT Calicut" loading="lazy" onerror="this.remove()"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Main_building_NIT_CALICUT_2.jpg" target="_blank" rel="noopener">Main building · Wikimedia Commons</a></figcaption></figure>
+        <div class="edu-body"><span class="when">2013 – 2017</span><h3>BTech Computer Science &amp; Engineering</h3><p>National Institute of Technology Calicut, India</p></div>
+      </div>
     </div>
   </section>
 
