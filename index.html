@@ -163,20 +163,25 @@ h2 { font: 700 clamp(30px, 4.4vw, 44px)/1.05 var(--display); letter-spacing: -.0
 .job-top { display: flex; justify-content: space-between; gap: 6px 20px; flex-wrap: wrap; align-items: baseline; }
 .job h3 { font: 700 22px/1.25 var(--display); letter-spacing: -.015em; margin: 0; }
 .job .org { display: inline-flex; align-items: center; gap: 8px; }
-.company-logo { display: inline-block; width: 30px; height: 24px; object-fit: contain; flex: 0 0 auto; vertical-align: middle; }
-.company-logo.natwest { width: 30px; }
-.company-logo.ms { width: 25px; }
-.company-logo.thg { width: 28px; }
-.company-logo.jpm { width: 32px; }
-.company-logo.brand-mark { width: 30px; height: 24px; }
-.company-logo.ms.brand-mark { width: 34px; height: 24px; }
+.company-logo { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 38px; padding: 5px 8px; object-fit: contain; flex: 0 0 auto; vertical-align: middle; border: 1px solid var(--line); border-radius: 10px; background: #FFFFFF; box-shadow: 0 3px 10px rgba(16,19,26,.07); transition: transform .2s, box-shadow .2s; }
+.job .org:hover .company-logo { transform: translateY(-2px) scale(1.04); box-shadow: 0 7px 16px rgba(16,19,26,.12); }
+.company-logo.natwest { width: 42px; height: 42px; padding: 5px; border-radius: 12px; }
+.company-logo.ms { width: 48px; height: 36px; padding: 4px 6px; }
+.company-logo.thg { width: 44px; height: 36px; }
+.company-logo.jpm { width: 48px; height: 36px; padding: 5px 7px; }
+.company-logo.brand-mark { width: 46px; height: 38px; }
+.company-logo.ms.brand-mark { width: 48px; height: 36px; }
+.company-logo.thg-mark { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 36px; padding: 0; border: 1px solid #D7DCE4; border-radius: 10px; background: #17191F; color: #FFFFFF; box-shadow: 0 3px 10px rgba(16,19,26,.10); font: 800 12px/1 var(--body); letter-spacing: .08em; }
 .publication-link { margin-top: 10px !important; }
 .publication-link a { color: var(--accent); font-weight: 600; text-decoration: none; }
 .publication-link a:hover { text-decoration: underline; }
 .company-logo.thg-mark { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 22px; border: 1.5px solid currentColor; border-radius: 3px; font: 800 10px/1 var(--body); letter-spacing: .04em; }
 @media (max-width: 560px) {
-  .job .org { gap: 6px; }
-  .company-logo { width: 26px; height: 22px; }
+  .job .org { gap: 8px; }
+  .company-logo { width: 40px; height: 34px; }
+  .company-logo.natwest { width: 38px; height: 38px; }
+  .company-logo.ms { width: 42px; height: 32px; }
+  .company-logo.jpm, .company-logo.thg-mark { width: 42px; height: 32px; }
 }
 .job .org { color: var(--accent); transition: color .2s; }
 .job .org.natwest { color: #5A2CA0; }
@@ -338,7 +343,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       <span class="progress" id="progress"></span>
 
       <article class="job current reveal">
-        <div class="job-top"><h3>Senior Data Scientist (AVP) · <span class="org natwest">NatWest Group<svg class="company-logo natwest brand-mark" viewBox="0 0 36 28" role="img" aria-label="NatWest logo"><path fill="#5A2CA0" d="M2 4 11 1 17 8 8 12Z"/><path fill="#E84B8A" d="M17 8 26 3 34 9 25 14Z"/><path fill="#4C3C91" d="M8 12 17 8 25 14 16 19Z"/><path fill="#D6C8F2" d="M8 12 16 19 16 27 7 21Z"/><path fill="#8B6BC4" d="M16 19 25 14 25 22 16 27Z"/></svg></span></h3><span class="when">Mar 2026 – Present</span></div>
+        <div class="job-top"><h3>Senior Data Scientist (AVP) · <span class="org natwest">NatWest Group<img class="company-logo natwest" src="https://commons.wikimedia.org/wiki/Special:FilePath/Natwest_2014_logo.svg" alt="Official NatWest logo" loading="lazy" onerror="this.onerror=null;this.src='https://commons.wikimedia.org/wiki/Special:FilePath/Natwest-logo.jpg';"></span></h3><span class="when">Mar 2026 – Present</span></div>
         <p class="where">Bangalore, Karnataka, India</p>
         <div class="cards">
           <div class="card wide"><span class="metric">FAISS KNN → knowledge graph → LLM</span><h4>Knowledge base deduplication</h4><p>Architected a funnel-based framework to deduplicate the knowledge base across franchises and functions. Cheap vector search and knowledge graph matching shortlist candidates, so the LLM verification step runs only where it matters, greatly reducing processing cost.</p></div>
