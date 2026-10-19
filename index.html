@@ -604,13 +604,15 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
   // Hero canvas: points drifting in an "embedding space", linked to their nearest neighbours
   var cv = document.getElementById('space'), ctx = cv.getContext('2d');
   var pts = [], W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), mouse = { x: -999, y: -999 };
-  var centers = [];
+  var centers = [], pcx = 0, pcy = 0, R = 0, minR = 0;
+  function edgeClear(a, b) { for (var q = 1; q < 6; q++) { var t = q / 6; if (!outside(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t)) return false; } return true; }
+  function outside(x, y) { var dx = x - pcx, dy = y - pcy; return dx * dx + dy * dy >= minR * minR; }
   function size() {
     var r = cv.getBoundingClientRect(); W = r.width; H = r.height;
     cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     var pr = document.querySelector('.portrait').getBoundingClientRect();
-    var pcx = pr.left - r.left + pr.width / 2, pcy = pr.top - r.top + pr.height / 2, R = pr.width / 2;
-    centers = [[-1.75, 1.22], [1.75, 1.22], [2.6, 1.2], [3.75, 1.2]].map(function (a) {
+    pcx = pr.left - r.left + pr.width / 2; pcy = pr.top - r.top + pr.height / 2; R = pr.width / 2; minR = R + 22;
+    centers = [[-1.75, 1.4], [1.75, 1.4], [2.6, 1.38], [3.75, 1.38]].map(function (a) {
       return [pcx + Math.cos(a[0]) * R * a[1], pcy + Math.sin(a[0]) * R * a[1]];
     });
     var m = 'radial-gradient(circle at ' + pcx + 'px ' + pcy + 'px, #000 ' + (R * 1.05) + 'px, transparent ' + (R * 2.2) + 'px)';
@@ -634,10 +636,15 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       var p = pts[i], c = centers[p.c];
       var tx = c[0] + p.ox + Math.cos(t + p.ph) * 18 + Math.cos(t * .7 + p.c) * 30;
       var ty = c[1] + p.oy + Math.sin(t + p.ph) * 14 + Math.sin(t * .5 + p.c) * 20;
+      var gx = tx - pcx, gy = ty - pcy, gd = Math.sqrt(gx * gx + gy * gy) || 1;
+      if (gd < minR + 30) { tx = pcx + gx / gd * (minR + 30 + (i % 5) * 8); ty = pcy + gy / gd * (minR + 30 + (i % 5) * 8); }
       p.vx += (tx - p.x) * 0.0025; p.vy += (ty - p.y) * 0.0025;
       var dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
       if (d2 < 12000) { var f = (12000 - d2) / 12000 * 0.9; p.vx += dx / Math.sqrt(d2 + 1) * f; p.vy += dy / Math.sqrt(d2 + 1) * f; }
       p.vx *= 0.93; p.vy *= 0.93; p.x += p.vx; p.y += p.vy;
+      // keep every point outside the dotted ring
+      var rx = p.x - pcx, ry = p.y - pcy, rd = Math.sqrt(rx * rx + ry * ry) || 1;
+      if (rd < minR) { p.x = pcx + rx / rd * minR; p.y = pcy + ry / rd * minR; p.vx *= -0.3; p.vy *= -0.3; }
     }
     ctx.strokeStyle = edge; ctx.lineWidth = 1;
     for (i = 0; i < pts.length; i++) {
@@ -648,7 +655,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
         if (e < best[0]) { best[1] = best[0]; bi[1] = bi[0]; best[0] = e; bi[0] = j; }
         else if (e < best[1]) { best[1] = e; bi[1] = j; }
       }
-      for (var k = 0; k < 2; k++) if (bi[k] >= 0 && best[k] < 14000) {
+      for (var k = 0; k < 2; k++) if (bi[k] >= 0 && best[k] < 14000 && edgeClear(a, pts[bi[k]])) {
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(pts[bi[k]].x, pts[bi[k]].y); ctx.stroke();
       }
     }
