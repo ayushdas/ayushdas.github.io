@@ -105,6 +105,22 @@ h1 .line:nth-child(2) > span { animation-delay: .08s; color: var(--accent); }
 @keyframes rise { from { transform: translateY(100%); } to { transform: none; } }
 .role { font: 500 clamp(18px, 2.3vw, 22px)/1.4 var(--body); margin: 0 0 12px; }
 .role .rot { color: var(--accent); display: inline-block; min-width: 2ch; }
+.role .rot { transition: opacity .25s; }
+.role .rot.clear { opacity: 0; }
+.role .rot .tok { animation: tokIn .3s ease both; }
+@keyframes tokIn { from { opacity: 0; filter: blur(3px); } to { opacity: 1; filter: none; } }
+.role .rot.thinking::before {
+  content: ""; display: inline-block; width: 1.5em; height: 1em; vertical-align: -2px;
+  background: radial-gradient(circle, var(--accent) 2px, transparent 2.6px) 0 55% / .5em 100% repeat-x;
+  animation: think 1s ease-in-out infinite;
+}
+@keyframes think { 0%, 100% { opacity: .25; } 50% { opacity: .9; } }
+.loop { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: -6px 0 16px; font: 500 13px var(--mono); color: var(--muted); letter-spacing: .02em; }
+.loop span { position: relative; padding-bottom: 3px; transition: color .35s; }
+.loop span::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+.loop span.on { color: var(--accent); }
+.loop span.on::after { transform: scaleX(1); }
+.loop i { font-style: normal; opacity: .45; }
 .role .rot::after { content: ""; display: inline-block; width: 2px; height: 1em; background: var(--accent); margin-left: 3px; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 .lede { color: var(--muted); max-width: 54ch; margin: 0 0 28px; font-size: 17px; }
@@ -349,6 +365,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       <div class="hero-text">
         <span class="eyebrow fade"><i class="pulse"></i>Bangalore, Karnataka, India · NatWest Group</span>
         <h1><span class="line"><span>Ayush</span></span><span class="line"><span>Das</span></span></h1>
+        <p class="loop fade d1" id="loop" aria-label="Agent loop: plan, retrieve, reason, act"><span class="on">plan</span><i>→</i><span>retrieve</span><i>→</i><span>reason</span><i>→</i><span>act</span><i>↺</i></p>
         <p class="role fade d1">Senior Data Scientist building <span class="rot" id="rot">LLM systems</span></p>
         <p class="lede fade d2">Hi, I’m Ayush. I’m drawn to difficult problems and to what AI can achieve when it is engineered with care.</p>
         <p class="lede fade d2">For nearly eight years, I have built machine learning systems that shape business decisions in banking, retail, and e-commerce, across India and the UK. At Marks &amp; Spencer, my models delivered around £1M in measurable financial impact while I managed and hired data scientists. At NatWest, I lead the design of LLM and retrieval systems, owning the knowledge base deduplication architecture end-to-end and guiding how it is applied across franchises and functions.</p>
@@ -439,7 +456,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
   <section id="skills">
     <div class="sec-head"><h2>Skills</h2><p>tools I reach for</p></div>
     <div class="skills">
-      <div class="skill feature reveal"><h3>Generative AI</h3><div class="stack"><span class="chip">LLMs</span><span class="chip">Claude Opus</span><span class="chip">OpenAI</span><span class="chip">RAG</span><span class="chip">FAISS</span><span class="chip">Knowledge graphs</span><span class="chip">LangChain</span><span class="chip">LoRA / QLoRA</span></div></div>
+      <div class="skill feature reveal"><h3>Generative &amp; Agentic AI</h3><div class="stack"><span class="chip">LLMs</span><span class="chip">Agentic workflows</span><span class="chip">Context engineering</span><span class="chip">LLM-as-a-judge</span><span class="chip">Claude Opus</span><span class="chip">OpenAI</span><span class="chip">RAG</span><span class="chip">FAISS</span><span class="chip">Knowledge graphs</span><span class="chip">LangChain</span><span class="chip">LoRA / QLoRA</span></div></div>
       <div class="skill reveal"><h3>Languages</h3><div class="stack"><span class="chip">Python</span><span class="chip">C / C++</span><span class="chip">JavaScript</span><span class="chip">HTML / CSS</span><span class="chip">PHP</span></div></div>
       <div class="skill reveal"><h3>ML &amp; data</h3><div class="stack"><span class="chip">Scikit-Learn</span><span class="chip">PySpark</span><span class="chip">Pandas</span><span class="chip">NumPy</span><span class="chip">Prophet</span><span class="chip">GluonTS</span><span class="chip">TensorFlow</span></div></div>
       <div class="skill reveal"><h3>Cloud</h3><div class="stack"><span class="chip">Azure Databricks</span><span class="chip">BigQuery</span><span class="chip">Compute Engine</span><span class="chip">Cloud Storage</span></div></div>
@@ -534,15 +551,34 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
 
   // Rotating role text with a typing effect
   var words = ['LLM systems', 'agentic systems', 'retrieval pipelines', 'knowledge graphs', 'forecasting models', 'ML that ships'];
-  var el = document.getElementById('rot'), wi = 0, ci = words[0].length, del = true;
-  function tick() {
-    var w = words[wi];
-    if (del) { ci--; if (ci <= 0) { del = false; wi = (wi + 1) % words.length; } }
-    else { ci++; if (ci >= words[wi].length) { del = true; el.textContent = words[wi]; return setTimeout(tick, 1800); } }
-    el.textContent = words[wi].slice(0, Math.max(ci, 0)) || '​';
-    setTimeout(tick, del ? 35 : 70);
+  // Role text streams in like an LLM reply: a short "thinking" pause, then sub-word tokens
+  var el = document.getElementById('rot'), wi = 0;
+  function tokens(w) { return w.match(/\s*\S{1,4}/g) || [w]; }
+  function cycle() {
+    setTimeout(function () {
+      el.classList.add('clear');
+      setTimeout(function () {
+        wi = (wi + 1) % words.length; el.textContent = '';
+        el.classList.remove('clear'); el.classList.add('thinking');
+        setTimeout(function () {
+          el.classList.remove('thinking');
+          var tk = tokens(words[wi]), i = 0;
+          (function next() {
+            if (i >= tk.length) return cycle();
+            var sp = document.createElement('span'); sp.className = 'tok'; sp.textContent = tk[i++];
+            el.appendChild(sp); setTimeout(next, 55 + Math.random() * 95);
+          })();
+        }, 750);
+      }, 260);
+    }, 2400);
   }
-  if (!reduce) setTimeout(tick, 2200);
+  if (!reduce) cycle();
+
+  // Agent loop: plan -> retrieve -> reason -> act, one step at a time
+  var steps = document.querySelectorAll('#loop span'), si = 0;
+  if (!reduce) setInterval(function () {
+    steps[si].classList.remove('on'); si = (si + 1) % steps.length; steps[si].classList.add('on');
+  }, 1100);
 
   // Nav border + active link
   var nav = document.getElementById('nav');
@@ -604,6 +640,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
   var cv = document.getElementById('space'), ctx = cv.getContext('2d');
   var pts = [], W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), mouse = { x: -999, y: -999 };
   var centers = [], pcx = 0, pcy = 0, R = 0, minR = 0, box = null;
+  var pulses = [], rings = [];
   function edgeClear(a, b) { for (var q = 1; q < 6; q++) { var t = q / 6; if (!outside(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t)) return false; } return true; }
   function outside(x, y) { var dx = x - pcx, dy = y - pcy; return dx * dx + dy * dy >= minR * minR; }
   function size() {
@@ -628,7 +665,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
     }
     cv.style.webkitMaskImage = m; cv.style.maskImage = m;
     var n = 0, nb = box ? 52 : 0;
-    pts = [];
+    pts = []; pulses = []; rings = [];
     for (var i = 0; i < n; i++) {
       var c = centers[i % centers.length];
       pts.push({ x: Math.random() * W, y: Math.random() * H, vx: 0, vy: 0, c: i % centers.length,
@@ -669,6 +706,7 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       if (p.box) { p.x = Math.min(box.x1, Math.max(box.x0, p.x)); p.y = Math.min(box.y1, Math.max(box.y0, p.y)); }
     }
     ctx.strokeStyle = edge; ctx.lineWidth = 1;
+    var edges = [];
     for (i = 0; i < pts.length; i++) {
       // draw edges to the 2 nearest neighbours (a tiny KNN graph)
       var a = pts[i], best = [1e9, 1e9], bi = [-1, -1];
@@ -679,8 +717,39 @@ footer { padding-block: 0 40px; color: var(--muted); font: 400 13px var(--mono);
       }
       for (var k = 0; k < 2; k++) if (bi[k] >= 0 && best[k] < 14000 && !!a.box === !!pts[bi[k]].box && edgeClear(a, pts[bi[k]])) {
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(pts[bi[k]].x, pts[bi[k]].y); ctx.stroke();
+        edges.push([a, pts[bi[k]]]);
       }
     }
+    // agents passing messages: pulses travel along edges and sometimes hand off to the next agent
+    if (!reduce && edges.length && Math.random() < 0.025 && pulses.length < 4) {
+      var e0 = edges[Math.floor(Math.random() * edges.length)]; pulses.push({ a: e0[0], b: e0[1], t: 0, hops: 0 });
+    }
+    var acc = css('--accent');
+    ctx.save(); ctx.shadowColor = acc; ctx.shadowBlur = 10; ctx.fillStyle = acc;
+    for (var pi = pulses.length - 1; pi >= 0; pi--) {
+      var pu = pulses[pi]; pu.t += 0.022;
+      if (pu.t >= 1) {
+        rings.push({ p: pu.b, r: 0 });
+        var nxt = edges.filter(function (e) { return (e[0] === pu.b && e[1] !== pu.a) || (e[1] === pu.b && e[0] !== pu.a); });
+        pulses.splice(pi, 1);
+        if (nxt.length && pu.hops < 3 && Math.random() < 0.7) {
+          var ne = nxt[Math.floor(Math.random() * nxt.length)];
+          pulses.push({ a: pu.b, b: ne[0] === pu.b ? ne[1] : ne[0], t: 0, hops: pu.hops + 1 });
+        }
+        continue;
+      }
+      var et = pu.t < .5 ? 2 * pu.t * pu.t : 1 - Math.pow(-2 * pu.t + 2, 2) / 2;
+      ctx.beginPath(); ctx.arc(pu.a.x + (pu.b.x - pu.a.x) * et, pu.a.y + (pu.b.y - pu.a.y) * et, 2.6, 0, 6.283); ctx.fill();
+    }
+    ctx.restore();
+    ctx.strokeStyle = acc; ctx.lineWidth = 1.2;
+    for (var ri = rings.length - 1; ri >= 0; ri--) {
+      var rg = rings[ri]; rg.r += 0.6;
+      ctx.globalAlpha = Math.max(0, 1 - rg.r / 14);
+      ctx.beginPath(); ctx.arc(rg.p.x, rg.p.y, 3 + rg.r, 0, 6.283); ctx.stroke();
+      if (rg.r >= 14) rings.splice(ri, 1);
+    }
+    ctx.globalAlpha = 1;
     ctx.fillStyle = dot;
     for (i = 0; i < pts.length; i++) { ctx.beginPath(); ctx.arc(pts[i].x, pts[i].y, i % 7 === 0 ? 3 : 1.9, 0, 6.283); ctx.fill(); }
     if (!reduce) requestAnimationFrame(frame);
